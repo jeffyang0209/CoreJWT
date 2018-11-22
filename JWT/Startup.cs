@@ -9,9 +9,19 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace JWT
 {
+    // 1. 加入Microsoft.IdentityModel.Tokens
+    // 2. 加入Microsoft.AspNetCore.Authentication.JwtBearer
+    // 3. Configure中使用app.UseAuthentication();
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -51,7 +61,7 @@ namespace JWT
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
